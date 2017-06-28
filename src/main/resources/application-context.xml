@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="com.wowa.sorter.strategy.impl.QuickSortingStrategy" id="quickSortingStrategy"/>
+
+	<bean class="com.wowa.sorter.strategy.impl.BubbleSortingStrategy" id="bubbleSortingStrategy"/>
+
+	<bean class="com.wowa.sorter.strategy.impl.BuiltinSortingStrategy" id="builtinSortingStrategy"/>
+
+	<bean id="defaultSortingService" class="com.wowa.sorter.service.impl.DefaultSortingService">
+		<property name="strategies">
+			<map key-type="java.lang.String" merge="true">
+				<entry key="quick" value-ref="quickSortingStrategy"/>
+				<entry key="bubble" value-ref="bubbleSortingStrategy"/>
+				<entry key="builtin" value-ref="builtinSortingStrategy"/>
+			</map>
+		</property>
+	</bean>
+
+</beans>
