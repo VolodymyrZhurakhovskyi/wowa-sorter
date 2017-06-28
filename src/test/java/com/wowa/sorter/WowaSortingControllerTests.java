@@ -1,9 +1,12 @@
 package com.wowa.sorter;
 
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.object.IsCompatibleType.typeCompatibleWith;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.annotation.Resource;
@@ -34,8 +37,6 @@ public class WowaSortingControllerTests
 	private static final String SORTING_WRONG_URL = "/sorting/wrong";
 	private static final String LEGAL_ITEMS_JSON = "{\"items\": [9,6,3,5,4,2,5,10]}";
 	private static final String ILLEGAL_ITEMS_JSON = "{\"items\": [9,6,3,5,4,2,5,\"A\"]}";
-	private static final String LEGAL_RESULT_JSON = "{\"result\":[2,3,4,5,5,6,9,10]}";
-
 
 	@Resource
 	private WebApplicationContext webApplicationContext;
@@ -67,7 +68,8 @@ public class WowaSortingControllerTests
 				.content(LEGAL_ITEMS_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json(LEGAL_RESULT_JSON));
+				.andExpect(jsonPath("$.result", hasSize(8)))
+				.andExpect(jsonPath("$.result", contains(2, 3, 4, 5, 5, 6, 9, 10)));
 	}
 
 	@Test
@@ -89,7 +91,8 @@ public class WowaSortingControllerTests
 				.content(LEGAL_ITEMS_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json(LEGAL_RESULT_JSON));
+				.andExpect(jsonPath("$.result", hasSize(8)))
+				.andExpect(jsonPath("$.result", contains(2, 3, 4, 5, 5, 6, 9, 10)));
 	}
 
 	@Test
@@ -111,7 +114,8 @@ public class WowaSortingControllerTests
 				.content(LEGAL_ITEMS_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json(LEGAL_RESULT_JSON));
+				.andExpect(jsonPath("$.result", hasSize(8)))
+				.andExpect(jsonPath("$.result", contains(2, 3, 4, 5, 5, 6, 9, 10)));
 	}
 
 	@Test
